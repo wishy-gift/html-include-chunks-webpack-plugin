@@ -1,0 +1,43 @@
+{
+	"name": "@wishy-gift/html-include-chunks-webpack-plugin",
+	"version": "0.1.0",
+	"description": "Webpack plugin for non-SPA apps with multiple entries using HtmlWebpackPlugin",
+	"main": "index.js",
+	"scripts": {},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/wishy-gift/html-include-chunks-webpack-plugin.git"
+	},
+	"keywords": [
+		"webpack",
+		"plugin",
+		"html",
+		"html-webpack-plugin"
+	],
+	"author": "Daniel Skogly <daniel@wishy.gift> (https://wishy.gift)",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/wishy-gift/html-include-chunks-webpack-plugin/issues"
+	},
+	"homepage": "https://wishy.gift/",
+	"devDependencies": {
+		"standard-version": "^7.1.0"
+	},
+	"dependencies": {
+		"html-webpack-plugin": "^4.2.0",
+		"lodash": "^4.17.15",
+		"eslint": "^6.8.0",
+		"eslint-import-resolver-node": "^0.3.3",
+		"eslint-plugin-babel": "^5.3.0",
+		"eslint-plugin-import": "^2.20.2"
+	},
+	"prettier": {
+		"tabWidth": 2,
+		"useTabs": true,
+		"semi": true,
+		"singleQuote": true,
+		"trailingComma": "es5",
+		"jsxBracketSameLine": false,
+		"arrowParens": "always"
+	}
+}
