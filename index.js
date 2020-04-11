@@ -18,6 +18,8 @@ class HtmlIncludeChunksWebpackPlugin {
 
 		this.apply = this.apply.bind(this);
 		this.registerCb = this.registerCb.bind(this);
+		this.getLinkTag = this.getLinkTag.bind(this);
+		this.getScriptTag = this.getScriptTag.bind(this);
 		this.getAssetTags = this.getAssetTags.bind(this);
 		this.addChunksById = this.addChunksById.bind(this);
 
@@ -45,7 +47,7 @@ class HtmlIncludeChunksWebpackPlugin {
 
 	addChunksById(chunks) {
 		chunks.forEach((chunk) => {
-			const {groupsIterable, id, name, files} = chunk;
+			const { groupsIterable, id, name, files } = chunk;
 
 			const siblings = new Set();
 
