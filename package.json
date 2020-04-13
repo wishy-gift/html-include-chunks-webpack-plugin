@@ -1,6 +1,6 @@
 {
 	"name": "@wishy-gift/html-include-chunks-webpack-plugin",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"description": "Webpack plugin for non-SPA apps with multiple entries using HtmlWebpackPlugin",
 	"main": "index.js",
 	"scripts": {
