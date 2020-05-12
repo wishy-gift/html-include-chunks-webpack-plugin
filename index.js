@@ -3,8 +3,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const uniq = require('lodash/uniq');
 
-const isDev = process.env.NODE_ENV !== 'production';
-
 const cssRegex = /(?:\.css)$/;
 const jsRegex = /(?:\.js)$/;
 
@@ -110,7 +108,7 @@ class HtmlIncludeChunksWebpackPlugin {
 			.filter((file) => file.match(cssRegex))
 			.map(this.getLinkTag);
 		const scripts = allFiles
-			.filter((file) => isDev || file.match(jsRegex))
+			.filter((file) => file.match(jsRegex))
 			.map(this.getScriptTag);
 
 		return {
