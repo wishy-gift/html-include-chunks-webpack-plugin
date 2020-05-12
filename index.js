@@ -68,23 +68,35 @@ class HtmlIncludeChunksWebpackPlugin {
 		});
 	}
 
-	getLinkTag(fileName) {
+	getFileUrl(fileName, hash) {
+		let url = `${this.publicPath}${fileName}`;
+
+		if (hash) {
+			// Append the hash as a parameter in the query string.
+			// If the URL already contains query parameters, append with '&' instead of '?'.
+			url += (fileName.indexOf('?') === -1 ? '?' : '&') + hash;
+		}
+
+		return url;
+	}
+
+	getLinkTag(fileName, hash) {
 		return {
 			tagName: 'link',
 			voidTag: true,
 			attributes: {
 				rel: 'stylesheet',
-				href: `${this.publicPath}${fileName}`,
+				href: this.getFileUrl(fileName, hash),
 			},
 		};
 	}
 
-	getScriptTag(fileName) {
+	getScriptTag(fileName, hash) {
 		return {
 			tagName: 'script',
 			voidTag: false,
 			attributes: {
-				src: `${this.publicPath}${fileName}`,
+				src: this.getFileUrl(fileName, hash),
 			},
 		};
 	}
@@ -104,12 +116,17 @@ class HtmlIncludeChunksWebpackPlugin {
 
 		allFiles = uniq(allFiles);
 
+		let compilationHash = null;
+		if (pluginData.plugin.options.hash) {
+			compilationHash = pluginData.plugin.childCompilerHash;
+		}
+
 		const styles = allFiles
 			.filter((file) => file.match(cssRegex))
-			.map(this.getLinkTag);
+			.map(fileName => this.getLinkTag(fileName, compilationHash));
 		const scripts = allFiles
 			.filter((file) => file.match(jsRegex))
-			.map(this.getScriptTag);
+			.map(fileName => this.getScriptTag(fileName, compilationHash));
 
 		return {
 			styles,
