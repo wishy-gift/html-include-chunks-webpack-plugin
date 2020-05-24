@@ -1,3 +1,6 @@
+![npm](https://img.shields.io/npm/v/@wishy-gift/html-include-chunks-webpack-plugin)
+![npm](https://img.shields.io/npm/dw/@wishy-gift/html-include-chunks-webpack-plugin)
+
 # HTML Include Chunks Webpack Plugin
 
 A Webpack plugin for non-SPA apps with multiple entries using HtmlWebpackPlugin
