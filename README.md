@@ -1,5 +1,5 @@
-![npm](https://img.shields.io/npm/v/@wishy-gift/html-include-chunks-webpack-plugin)
-![npm](https://img.shields.io/npm/dw/@wishy-gift/html-include-chunks-webpack-plugin)
+[![npm](https://img.shields.io/npm/v/@wishy-gift/html-include-chunks-webpack-plugin)](https://www.npmjs.com/package/@wishy-gift/html-include-chunks-webpack-plugin)
+[![npm](https://img.shields.io/npm/dw/@wishy-gift/html-include-chunks-webpack-plugin)](https://www.npmjs.com/package/@wishy-gift/html-include-chunks-webpack-plugin)
 
 # HTML Include Chunks Webpack Plugin
 
