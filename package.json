@@ -27,7 +27,7 @@
 		"lodash": "^4.17.15"
 	},
 	"devDependencies": {
-		"standard-version": "^7.1.0",
+		"standard-version": "^8.0.1",
 		"eslint": "^6.8.0",
 		"eslint-import-resolver-node": "^0.3.3",
 		"eslint-plugin-babel": "^5.3.0",
