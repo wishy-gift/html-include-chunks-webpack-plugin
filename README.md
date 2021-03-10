@@ -29,7 +29,7 @@ This plugin needs to be included after [HtmlWebpackConfig](https://github.com/ja
 
 ## Options
 
-Takes no options, but uses `webpackConfig.output.publicPath` and requires that `entryKey` in `HtmlWebpackConfig` is specified
+Takes no options, but uses `webpackConfig.output.publicPath` and requires that `entryKey` in `HtmlWebpackConfig` is specified, as the `entryKey` is used to filter the chunks
 
 ## Example
 
