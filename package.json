@@ -23,15 +23,16 @@
 	},
 	"homepage": "https://wishy.gift",
 	"dependencies": {
-		"html-webpack-plugin": "^4.2.0",
+		"html-webpack-plugin": "^5.3.1",
 		"lodash": "^4.17.15"
 	},
 	"devDependencies": {
-		"standard-version": "^8.0.1",
 		"eslint": "^6.8.0",
 		"eslint-import-resolver-node": "^0.3.3",
 		"eslint-plugin-babel": "^5.3.0",
-		"eslint-plugin-import": "^2.20.2"
+		"eslint-plugin-import": "^2.20.2",
+		"prettier": "2.2.1",
+		"standard-version": "^9.1.1"
 	},
 	"prettier": {
 		"tabWidth": 2,

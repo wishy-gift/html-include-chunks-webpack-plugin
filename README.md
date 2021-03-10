@@ -7,11 +7,21 @@ A Webpack plugin for non-SPA apps with multiple entries using HtmlWebpackPlugin
 
 ## Installation
 
+### Webpack 5
+
     npm install @wishy-gift/html-include-chunks-webpack-plugin
 
 or
 
     yarn add @wishy-gift/html-include-chunks-webpack-plugin
+
+### Webpack 4
+
+    npm install @wishy-gift/html-include-chunks-webpack-plugin@0
+
+or
+
+    yarn add @wishy-gift/html-include-chunks-webpack-plugin@0
 
 ## Usage
 

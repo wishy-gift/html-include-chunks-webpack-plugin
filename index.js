@@ -23,17 +23,22 @@ class HtmlIncludeChunksWebpackPlugin {
 
 		this.chunksById = {};
 		this.chunksByName = {};
-
-		this.publicPath = '';
 	}
 
 	apply(compiler) {
 		compiler.hooks.compilation.tap(this.pluginName, (compilation) => {
-			this.publicPath = compilation.outputOptions.publicPath || '';
+			compilation.hooks.processAssets.tap(
+				{
+					name: this.pluginName,
+					stage: compilation.PROCESS_ASSETS_STAGE_OPTIMIZE,
+				},
+				() => {
+					for (const chunkGroup of compilation.namedChunkGroups.values()) {
+						const entrypointChunk = chunkGroup.getEntrypointChunk();
 
-			compilation.hooks.afterOptimizeChunkAssets.tap(
-				this.pluginName,
-				this.addChunksById
+						this.addChunksById(entrypointChunk);
+					}
+				}
 			);
 
 			HtmlWebpackPlugin.getHooks(compilation).alterAssetTags.tapAsync(
@@ -43,33 +48,32 @@ class HtmlIncludeChunksWebpackPlugin {
 		});
 	}
 
-	addChunksById(chunks) {
-		chunks.forEach((chunk) => {
-			const { groupsIterable, id, name, files } = chunk;
+	addChunksById(entrypointChunk) {
+		const { groupsIterable, id, name, files } = entrypointChunk;
 
-			const siblings = new Set();
+		const siblings = new Set();
 
-			for (const chunkGroup of groupsIterable) {
-				for (const sibling of chunkGroup.chunks) {
-					if (sibling !== chunk) {
-						siblings.add(sibling.id);
-					}
+		for (const chunkGroup of groupsIterable) {
+			for (const sibling of chunkGroup.chunks) {
+				if (sibling !== chunkGroup) {
+					siblings.add(sibling.id);
+					this.chunksById[sibling.id] = sibling;
 				}
 			}
+		}
 
-			this.chunksById[id] = {
-				id: id,
-				name: name,
-				files: files,
-				siblings: Array.from(siblings),
-			};
+		this.chunksById[id] = {
+			id: id,
+			name: name,
+			files: files,
+			siblings: Array.from(siblings),
+		};
 
-			this.chunksByName[name] = this.chunksById[id];
-		});
+		this.chunksByName[name] = this.chunksById[id];
 	}
 
-	getFileUrl(fileName, hash) {
-		let url = `${this.publicPath}${fileName}`;
+	getFileUrl(fileName, hash, publicPath) {
+		let url = `${publicPath}${fileName}`;
 
 		if (hash) {
 			// Append the hash as a parameter in the query string.
@@ -80,23 +84,23 @@ class HtmlIncludeChunksWebpackPlugin {
 		return url;
 	}
 
-	getLinkTag(fileName, hash) {
+	getLinkTag(fileName, hash, publicPath) {
 		return {
 			tagName: 'link',
 			voidTag: true,
 			attributes: {
 				rel: 'stylesheet',
-				href: this.getFileUrl(fileName, hash),
+				href: this.getFileUrl(fileName, hash, publicPath),
 			},
 		};
 	}
 
-	getScriptTag(fileName, hash) {
+	getScriptTag(fileName, hash, publicPath) {
 		return {
 			tagName: 'script',
 			voidTag: false,
 			attributes: {
-				src: this.getFileUrl(fileName, hash),
+				src: this.getFileUrl(fileName, hash, publicPath),
 			},
 		};
 	}
@@ -104,15 +108,19 @@ class HtmlIncludeChunksWebpackPlugin {
 	getAssetTags(entryKey, pluginData) {
 		let allFiles = [];
 
-		const entryChunk = this.chunksByName[entryKey];
+		const chunk = this.chunksByName[entryKey];
 
-		entryChunk.siblings.forEach((chunkId) => {
-			const chunk = this.chunksById[chunkId];
+		chunk.siblings.forEach((chunkId) => {
+			const sibling = this.chunksById[chunkId];
 
-			allFiles = allFiles.concat(chunk.files);
+			const siblingFiles = Array.from(sibling.files);
+
+			allFiles = allFiles.concat(siblingFiles);
 		});
 
-		allFiles = allFiles.concat(entryChunk.files);
+		const chunkFiles = Array.from(chunk.files);
+
+		allFiles = allFiles.concat(chunkFiles);
 
 		allFiles = uniq(allFiles);
 
@@ -123,10 +131,14 @@ class HtmlIncludeChunksWebpackPlugin {
 
 		const styles = allFiles
 			.filter((file) => file.match(cssRegex))
-			.map(fileName => this.getLinkTag(fileName, compilationHash));
+			.map((fileName) =>
+				this.getLinkTag(fileName, compilationHash, pluginData.publicPath)
+			);
 		const scripts = allFiles
 			.filter((file) => file.match(jsRegex))
-			.map(fileName => this.getScriptTag(fileName, compilationHash));
+			.map((fileName) =>
+				this.getScriptTag(fileName, compilationHash, pluginData.publicPath)
+			);
 
 		return {
 			styles,
